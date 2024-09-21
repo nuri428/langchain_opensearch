@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "langchain-opensearch"
-version = "0.0.1"
+version = "0.0.2"
 description = "An integration package connecting Opensearch and LangChain"
 authors = ["강재호 <greennuri@gmail.com>"]
 license = "MIT"
