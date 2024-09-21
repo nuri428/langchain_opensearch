@@ -8,6 +8,7 @@ langchain-opensearch integrates Opensearch
 
 TODO 
 1. OpensearchStore 구현 [X]
+   1. 이미 있는 기능이라 별도로 인터페이스 제공하지 않음.
 2. OpensearchRetriever 구현 [X]
 3. 그외 langchain-elastic에서 제공하는 여러 기능 구현. [ ]
    3.1 추가할 기능 내역 목록화 [ ]
