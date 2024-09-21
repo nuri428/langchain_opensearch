@@ -3,7 +3,7 @@ from typing import Any, Dict, Optional
 from opensearchpy import OpenSearch
 
 def create_opensearch_client(
-    url: Optional[str] = None,
+    hosts: Optional[str] = None,
     cloud_id: Optional[str] = None,
     api_key: Optional[int] = None,
     username: Optional[str] = None,
@@ -11,14 +11,14 @@ def create_opensearch_client(
     params: Optional[Dict[str, Any]] = None,
 ) -> OpenSearch:
     """Create an OpenSearch client."""
-    if url and cloud_id:
+    if hosts and cloud_id:
         raise ValueError("Both url and cloud_id are defined. Please provide only one")
-    if not url and not cloud_id:
+    if not hosts and not cloud_id:
         raise ValueError("Must provide either url or cloud_id")
 
     connection_params: Dict[str, Any] = {}
-    if url:
-        connection_params["url"] = [url]
+    if hosts:
+        connection_params["hosts"] = [hosts]
     if cloud_id:
         connection_params["cloud_id"] = cloud_id
 

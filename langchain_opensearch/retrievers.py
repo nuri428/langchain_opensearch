@@ -42,14 +42,14 @@ class OpenSearchRetriever(BaseRetriever):
         body_func: Callable[[str], Dict],
         content_field: Optional[Union[str, Mapping[str,str]]] = None,
         document_mapper: Optional[Callable[[Mapping], Document]] = None,
-        url : Optional[str] = None,
+        opensearch_url : Optional[str] = None,
         cloud_id : Optional[str] = None,
         api_key : Optional[str] = None,
         username : Optional[str] = None,
         password : Optional[str] = None,
         params: Optional[Dict[str, Any]] = None,
         ) -> "OpenSearchRetriever":
-        client = create_opensearch_client(url=url, cloud_id=cloud_id, api_key=api_key, username=username, password=password, params=params)
+        client = create_opensearch_client(hosts=opensearch_url, cloud_id=cloud_id, api_key=api_key, username=username, password=password, params=params)
         return OpenSearchRetriever(client=client, index_name=index_name, body_func=body_func, content_field=content_field, document_mapper=document_mapper)
 
     def _get_relevant_documents(self, query: str, *, run_manager: CallbackManagerForRetrieverRun) -> List[Document]:
@@ -57,6 +57,7 @@ class OpenSearchRetriever(BaseRetriever):
             raise ValueError("OpenSearch client or document mapper is not initialized")
 
         body = self.body_func(query)
+        logger.info(body)
         response = self.client.search(index=self.index_name, body=body)
         return [self.document_mapper(hit) for hit in response["hits"]["hits"]]
 
