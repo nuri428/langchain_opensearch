@@ -65,8 +65,12 @@ name is "news_article_embedding"
 }
 ```
 
+set opensearch_url like "http://localhost:9200"
+
 1. simple search
 ```python
+from langchain_opensearch import OpenSearchRetriever
+
 # define body function as below
 def normal_query(search_query: str) -> t.Dict:
     return {
@@ -77,17 +81,21 @@ def normal_query(search_query: str) -> t.Dict:
             }
         }
     }
-
+# define retriever
 retrieve3 = OpenSearchRetriever.from_os_params(
     index_name = "news_article_embedding",
     body_func=normal_query,
     opensearch_url = opensearch_url,
     content_field="text"
 )
+# invoke retriever
+retrieve3.invoke(query)
 ```
 
 2. knn search 
 ```python
+from langchain_opensearch import OpenSearchRetriever
+# define body function as below
 def knn_query(search_query: str) -> t.Dict:
     vector = embeddings.embed_query(search_query)  # same embeddings as for indexing
     return {
@@ -108,15 +116,16 @@ def knn_query(search_query: str) -> t.Dict:
                     }
                 }
              }
-
     }
-
+# define retriever
 retrieve2 = OpenSearchRetriever.from_os_params(
     index_name = "news_article_embedding",
     body_func=knn_query,
     opensearch_url = opensearch_url,
     content_field="text"
-)    
+)
+# invoke retriever
+retrieve2.invoke(query)
 ```
 
 ---
